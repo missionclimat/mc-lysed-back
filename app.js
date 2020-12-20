@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 
 // dependencies injection
 const session = require("express-session"); //sessions make data persist between http calls
-
+const { createProxyMiddleware } = require("http-proxy-middleware");
 var app = express();
 
 app.use(logger("dev"));
@@ -35,12 +35,24 @@ app.use(
   })
 );
 
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URI);
-//   // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
+const apiProxy = createProxyMiddleware("/api/aggregator", {
+  target: "https://aggregator-api.mission-climat.io",
+  pathRewrite: { "^/api/aggregator": "" },
+  secure: false,
+  headers: {
+    Authorization: `Token ${process.env.AGGREGATOR_API_TOKEN}`,
+    "Content-Type": "application/json",
+  },
+  changeOrigin: true,
+});
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URI);
+  // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+app.use(apiProxy);
 app.use("/api/sheet", require("./routes/gsheet"));
 
 app.use("*", (req, res, next) => {

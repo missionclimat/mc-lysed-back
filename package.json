@@ -17,6 +17,7 @@
     "google-auth-library": "^5.10.1",
     "googleapis": "^47.0.0",
     "http-errors": "~1.6.3",
+    "http-proxy-middleware": "^1.0.6",
     "morgan": "~1.9.1"
   }
 }

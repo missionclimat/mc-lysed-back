@@ -4,7 +4,34 @@ const router = new express.Router();
 const fs = require("fs");
 const readline = require("readline");
 const { google } = require("googleapis");
+const axios = require('axios');
 require("dotenv").config();
+
+router.post("/workshop", (req, res, next)=>{
+  console.log(req.body)
+
+  var data = JSON.stringify({"workshop_name":"MC","admin_name":"PB","participants_nb":22,"admin_email":"pascal@mail.com"});
+
+var config = {
+  method: 'post',
+  url: 'https://aggregator-api.mission-climat.io/workshop/',
+  headers: { 
+    'Authorization': 'Token d42627a8314d1e157d7fa517730e94b43db137b2', 
+    'Content-Type': 'application/json'
+  },
+  data : data
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+  console.log(error.toJSON);
+});
+
+})
 
 router.get("/download/:id", (req, res, next) => {
   const idSheet = req.params.id;

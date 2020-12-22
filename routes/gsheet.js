@@ -1,4 +1,6 @@
 const getSimulatorResults = require("../public/javascripts/getSimulatorResults.js");
+const getSheetInfos = require("../public/javascripts/getSheetInfos.js");
+const jsonFile = require("../initialDatas.json");
 const express = require("express");
 const router = new express.Router();
 const fs = require("fs");
@@ -7,31 +9,13 @@ const { google } = require("googleapis");
 const axios = require('axios');
 require("dotenv").config();
 
-router.post("/workshop", (req, res, next)=>{
-  console.log(req.body)
+router.get("/jsonfile", async (req, res, next) => {
 
-  var data = JSON.stringify({"workshop_name":"MC","admin_name":"PB","participants_nb":22,"admin_email":"pascal@mail.com"});
+  delete jsonFile.results
 
-var config = {
-  method: 'post',
-  url: 'https://aggregator-api.mission-climat.io/workshop/',
-  headers: { 
-    'Authorization': 'Token d42627a8314d1e157d7fa517730e94b43db137b2', 
-    'Content-Type': 'application/json'
-  },
-  data : data
-};
-
-axios(config)
-.then(function (response) {
-  console.log(JSON.stringify(response.data));
-})
-.catch(function (error) {
-  console.log(error);
-  console.log(error.toJSON);
+  res.status(200).json(jsonFile);
+  
 });
-
-})
 
 router.get("/download/:id", (req, res, next) => {
   const idSheet = req.params.id;
@@ -273,3 +257,5 @@ router.delete("/delete/:id", (req, res, next) => {
 });
 
 module.exports = router;
+
+

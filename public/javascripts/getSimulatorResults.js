@@ -30,7 +30,9 @@ function getSimulatorResults(rows) {
             name: rows[i][1],
             value: rows[i][2],
             unit: rows[i][3],
-            infos: rows[i][5]
+            infos: rows[i][5],
+            impactGnl: rows[i][6],
+            impactLcl: rows[i][7],
         }
 
         if (!indicators[rows[i][0]]) {

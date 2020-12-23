@@ -1,4 +1,5 @@
 const getJauge = require('./getJauge')
+const getTable = require('./getTable')
 const getCompoChartInfos = require('./getCompoChartInfos')
 
 function setCompoObject(rows, i, j, k, l) {
@@ -55,51 +56,56 @@ function getSimulatorResults(rows) {
     graphs.climate = getCompoChartInfos(rows,13,0)
     graphs.energy = getCompoChartInfos(rows,21,0)
 
-    var completeResults = {
-        emissions : {
-            title: rows[37][0],
-            intro: rows[38][1],
-            graphs: []
-        },
-        energieFinale : {
-            title: rows[58][0],
-            intro: rows[59][1],
-            graphs: []
-        },
-        energieRenouvelable : {
-            title: rows[72][0],
-            intro: rows[73][1],
-            graphs: []
-        },
-        energieFacture : {
-            title: rows[86][0],
-            intro: rows[87][1],
-            graphs: []
-        },
-        polluants : {
-            title: rows[109][0],
-            intro: rows[110][1],
-            graphs: []
-        }
-    };
+    let aggregator = {};
+    aggregator.impactGnlTable = getTable(rows, 16)
 
-    completeResults.emissions.graphs[0]=setCompoObject(rows,39,45,46,47);
-    completeResults.emissions.graphs[1]=setCompoObject(rows,50,53,54,55);
-    completeResults.energieFinale.graphs[0]=setCompoObject(rows,61,67,68,69);
-    completeResults.energieRenouvelable.graphs[0]=setCompoObject(rows,75,80,81,82);
-    completeResults.energieFacture.graphs[0]=setCompoObject(rows,89,103,104,105);
-    completeResults.polluants.graphs[0]=setCompoObject(rows,112,118,119,120);
-    completeResults.polluants.graphs[1]=setCompoObject(rows,123,129,130,131);
-    completeResults.polluants.graphs[2]=setCompoObject(rows,134,140,141,142);
-    completeResults.polluants.graphs[3]=setCompoObject(rows,145,151,152,153);
-    completeResults.polluants.graphs[4]=setCompoObject(rows,156,162,163,164);
+
+    // var completeResults = {
+    //     emissions : {
+    //         title: rows[37][0],
+    //         intro: rows[38][1],
+    //         graphs: []
+    //     },
+    //     energieFinale : {
+    //         title: rows[58][0],
+    //         intro: rows[59][1],
+    //         graphs: []
+    //     },
+    //     energieRenouvelable : {
+    //         title: rows[72][0],
+    //         intro: rows[73][1],
+    //         graphs: []
+    //     },
+    //     energieFacture : {
+    //         title: rows[86][0],
+    //         intro: rows[87][1],
+    //         graphs: []
+    //     },
+    //     polluants : {
+    //         title: rows[109][0],
+    //         intro: rows[110][1],
+    //         graphs: []
+    //     }
+    // };
+
+    // completeResults.emissions.graphs[0]=setCompoObject(rows,39,45,46,47);
+    // completeResults.emissions.graphs[1]=setCompoObject(rows,50,53,54,55);
+    // completeResults.energieFinale.graphs[0]=setCompoObject(rows,61,67,68,69);
+    // completeResults.energieRenouvelable.graphs[0]=setCompoObject(rows,75,80,81,82);
+    // completeResults.energieFacture.graphs[0]=setCompoObject(rows,89,103,104,105);
+    // completeResults.polluants.graphs[0]=setCompoObject(rows,112,118,119,120);
+    // completeResults.polluants.graphs[1]=setCompoObject(rows,123,129,130,131);
+    // completeResults.polluants.graphs[2]=setCompoObject(rows,134,140,141,142);
+    // completeResults.polluants.graphs[3]=setCompoObject(rows,145,151,152,153);
+    // completeResults.polluants.graphs[4]=setCompoObject(rows,156,162,163,164);
 
     
     return {
         indicators: indicators,
         graphs : graphs,
         jaugeDatas: jaugeDatas,
-        completeResults: completeResults
+        aggregator: aggregator
+        // completeResults: completeResults
     }
 }
 

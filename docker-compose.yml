@@ -14,9 +14,9 @@ services:
     ports: 
       - "4000:4000"
     volumes:
-      - "nodemodule:/app/node_modules"
+      # - "nodemodule:/app/node_modules"
       - "./:/app"
 
 volumes:
-  nodemodule:
+  # nodemodule:
   mongodata:

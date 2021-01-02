@@ -1,0 +1,22 @@
+version: "3.3"
+services:
+  mongodb:
+    image: mongo
+    expose: 
+       - "27017"
+    volumes:
+      - "mongodata:/data/db"
+
+  back:
+    stdin_open: true
+    build: 
+      context: .
+    ports: 
+      - "4000:4000"
+    volumes:
+      # - "nodemodule:/app/node_modules"
+      - "./:/app"
+
+volumes:
+  # nodemodule:
+  mongodata:

@@ -58,6 +58,7 @@ function getSimulatorResults(rows) {
 
     let aggregator = {};
     aggregator.impactGnlTable = getTable(rows, 16)
+    aggregator.sectorsDetailTable = getTable(rows, 24)
 
 
     // var completeResults = {

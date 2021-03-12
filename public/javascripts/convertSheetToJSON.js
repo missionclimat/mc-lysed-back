@@ -12,12 +12,12 @@ require("dotenv").config();
 /////PARAMETERS
 ///////////////
 
-const idSpreadsheetData = process.env.SPREADSHEET_MASTER_ID
-var categoryRange = 'Secteurs!A3:I7'
-var parametersRange = 'Paramètres!A3:V26'
-var resultsRange = 'Résultats!A1:BB300'
+const idSpreadsheetData = process.env.SPREADSHEET_MASTER_ID;
+var categoryRange = 'Secteurs!A3:I50';
+var parametersRange = 'Paramètres!A3:V300';
+var resultsRange = 'Résultats!A1:BB300';
 
-var outputFileName = "initialDatas.json"
+var outputFileName = "initialDatas.json";
 
 ///////////////
 
@@ -31,7 +31,7 @@ intervalID = setInterval(function() {
 
 function getCategoryInfo(data) {
 
-    var category = {}
+    var category = {};
 
     var cat = {
         index: data[0], 
@@ -42,30 +42,30 @@ function getCategoryInfo(data) {
         colorHover: data[8]
     }
 
-    category.data=cat
+    category.data=cat;
 
-    category.resultats={}
-    category.resultats.v15 = data[4]
-    category.resultats.vScenario = data[5]
-    category.resultats.vBaU = data[6]
+    category.resultats={};
+    category.resultats.v15 = data[4];
+    category.resultats.vScenario = data[5];
+    category.resultats.vBaU = data[6];
 
-    return category
+    return category;
 }
 
 function copyCategoryInfo(catName, categoriesInfo) {
-  var catFinal = {}
+  var catFinal = {};
   categoriesInfo.forEach(cat => {
     if (cat.data.name === catName) {
-      catFinal = cat
+      catFinal = cat;
     }
   });
 
-  return catFinal
+  return catFinal;
 
 }
 
 function formatNumber(dat, isPercent) {
-  
+
   //cas ou dat est un nombre
   if (!isNaN(Number(dat.replace(",",".")))) {
     var numberFormated = Number(dat.replace(",", "."))
@@ -102,8 +102,7 @@ function getParametersInfo(data) {
       tendance: data[17],
       contraintes: data[18],
       coBenefices: data[19],
-      coInconveniants: data[20],
-      sources: data[21],
+      displayed: formatNumber(data[20],0),
     }
 
     parameters.type = {}
@@ -163,11 +162,12 @@ sheets.spreadsheets.values.get({
     
     if (err) return console.log('The API returned an error: ' + err);
     var rows = res.data.values;
+    
     var iLine=0;
     var iNav=0;
-    var iCat=0
+    var iCat=0;
     var nav=[{scope: rows[0][1], categories: [] }];
-    var categoriesInfo=[]
+    var categoriesInfo=[];
 
     //loop on the Secteurs sheet lines
     while (rows[iLine]) {
@@ -199,14 +199,15 @@ sheets.spreadsheets.values.get({
     //v1.5 et vBaU, pour initialisation
     var options = {vInit: [], vMin: [], v15: [], vBaU: [], vMax: [], unit:[]};
 
-    options.unit.push(rows[0][5])
-    options.vInit.push([formatNumber(rows[0][9], rows[0][5]==="%")])
-    options.vMin.push([formatNumber(rows[0][12], rows[0][5]==="%")])
-    options.vMax.push([formatNumber(rows[0][13], rows[0][5]==="%")])
-    options.v15.push([formatNumber(rows[0][14], rows[0][5]==="%")])
-    options.vBaU.push([formatNumber(rows[0][15], rows[0][5]==="%")])
+    options.unit.push(rows[0][5]);
+    options.vInit.push([formatNumber(rows[0][9], rows[0][5]==="%")]);
+    options.vMin.push([formatNumber(rows[0][12], rows[0][5]==="%")]);
+    options.vMax.push([formatNumber(rows[0][13], rows[0][5]==="%")]);
+    options.v15.push([formatNumber(rows[0][14], rows[0][5]==="%")]);
+    options.vBaU.push([formatNumber(rows[0][15], rows[0][5]==="%")]);
 
-    var parameters = []
+    var parameters = [];
+
     parameters.push({
       type: rows[0][7],
       value: formatNumber(rows[0][9], rows[0][5]==="%"),

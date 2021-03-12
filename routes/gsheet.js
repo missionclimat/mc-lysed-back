@@ -104,9 +104,9 @@ router.get("/", (req, res, next) => {
     drive.files
       .copy({ fileId: process.env.SPREADSHEET_MASTER_ID })
       .then((dbRes) => {
-          res.status(200).json({ id: dbRes.data.id });
-        })
-        .catch(res.status(500));
+        res.status(200).json({ id: dbRes.data.id });
+      })
+      .catch(res.status(500));
     }
   main().catch(res.status(500));
 });
@@ -131,7 +131,7 @@ router.get("/values/:id", (req, res, next) => {
     });
 
     const idSheet = req.params.id;
-    const rangeParams = "Paramètres!F3:J26";
+    const rangeParams = "Paramètres!F3:J200";
 
     const sheets = google.sheets({ version: "v4", auth });
 
@@ -161,15 +161,18 @@ router.get("/values/:id", (req, res, next) => {
 router.patch("/update/:id", (req, res, next) => {
   const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
 
+  
+
   async function main() {
     // This method looks for the GCLOUD_PROJECT and GOOGLE_APPLICATION_CREDENTIALS
     // environment variables.
+    
     const auth = new google.auth.GoogleAuth({ scopes: SCOPES });
 
     const idSheet = req.params.id;
     const values = req.body.values;
-    
-    const rangeParams = "Paramètres!J3:J26";
+
+    const rangeParams = "Paramètres!J3:200";
     const rangeOutputs = "Résultats!A1:BB300";
 
     const sheets = google.sheets({ version: "v4", auth });
@@ -210,9 +213,11 @@ router.patch("/updateonly/:id", (req, res, next) => {
     // environment variables.
     const auth = new google.auth.GoogleAuth({ scopes: SCOPES });
 
+    
+
     const idSheet = req.params.id;
     const values = req.body.values;
-    const rangeParams = "Paramètres!J3:J26";
+    const rangeParams = "Paramètres!J3:J200";
 
     const sheets = google.sheets({ version: "v4", auth });
 

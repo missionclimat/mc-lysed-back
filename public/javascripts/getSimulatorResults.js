@@ -2,15 +2,15 @@ const getJauge = require('./getJauge')
 const getTable = require('./getTable')
 const getCompoChartInfos = require('./getCompoChartInfos')
 
-function setCompoObject(rows, i, j, k, l) {
+function setCompoObject(rows, i, j) {
 
     var compoTemp = getCompoChartInfos(rows,i,0);
 
     return {
         graphData: compoTemp,
         subtitle: rows[j][1],
-        graphText: rows[k][1],
-        source: rows[l][1],
+        graphText: rows[j+1][1],
+        source: rows[j+2][1],
         graphType: "CompoChart",
         title: compoTemp.data.title,
         legendData: compoTemp.graphDatas
@@ -49,64 +49,65 @@ function getSimulatorResults(rows) {
         i++
     }
 
-    var jaugeDatas = getJauge(rows, 29, 0) // i+1
+    var jaugeDatas = getJauge(rows, 70, 0) // i+1
 
     var graphs = {};
 
-    graphs.climate = getCompoChartInfos(rows,13,0)
-    graphs.energy = getCompoChartInfos(rows,21,0)
+    graphs.climate = getCompoChartInfos(rows,50,0)
+    graphs.energy = getCompoChartInfos(rows,60,0)
 
     let aggregator = {};
-    aggregator.impactGnlTable = getTable(rows, 16)
-    aggregator.sectorsDetailTable = getTable(rows, 24)
+    aggregator.impactGnlTable = getTable(rows, 17);
+    aggregator.sectorsDetailTable = getTable(rows, 25);
 
 
-    // var completeResults = {
-    //     emissions : {
-    //         title: rows[37][0],
-    //         intro: rows[38][1],
-    //         graphs: []
-    //     },
-    //     energieFinale : {
-    //         title: rows[58][0],
-    //         intro: rows[59][1],
-    //         graphs: []
-    //     },
-    //     energieRenouvelable : {
-    //         title: rows[72][0],
-    //         intro: rows[73][1],
-    //         graphs: []
-    //     },
-    //     energieFacture : {
-    //         title: rows[86][0],
-    //         intro: rows[87][1],
-    //         graphs: []
-    //     },
-    //     polluants : {
-    //         title: rows[109][0],
-    //         intro: rows[110][1],
-    //         graphs: []
-    //     }
-    // };
-
-    // completeResults.emissions.graphs[0]=setCompoObject(rows,39,45,46,47);
-    // completeResults.emissions.graphs[1]=setCompoObject(rows,50,53,54,55);
-    // completeResults.energieFinale.graphs[0]=setCompoObject(rows,61,67,68,69);
-    // completeResults.energieRenouvelable.graphs[0]=setCompoObject(rows,75,80,81,82);
-    // completeResults.energieFacture.graphs[0]=setCompoObject(rows,89,103,104,105);
-    // completeResults.polluants.graphs[0]=setCompoObject(rows,112,118,119,120);
-    // completeResults.polluants.graphs[1]=setCompoObject(rows,123,129,130,131);
-    // completeResults.polluants.graphs[2]=setCompoObject(rows,134,140,141,142);
-    // completeResults.polluants.graphs[3]=setCompoObject(rows,145,151,152,153);
-    // completeResults.polluants.graphs[4]=setCompoObject(rows,156,162,163,164);
-
+    var completeResults = {
+        emissions : {
+            title: rows[79][0],
+            intro: rows[80][1],
+            graphs: [
+                setCompoObject(rows,81,89),
+                setCompoObject(rows,94,97)
+            ]
+        },
+        energieFinale : {
+            title: rows[102][0],
+            intro: rows[103][1],
+            graphs: [
+                setCompoObject(rows,105,112)
+            ]
+        },
+        energieRenouvelable : {
+            title: rows[117][0],
+            intro: rows[118][1],
+            graphs: [setCompoObject(rows,120,128)]
+        },
+        energieFacture : {
+            title: rows[134][0],
+            intro: rows[135][1],
+            graphs: [
+                setCompoObject(rows,137,154)
+            ]
+        },
+        polluants : {
+            title: rows[160][0],
+            intro: rows[161][1],
+            graphs: [
+                setCompoObject(rows,163,170),
+                setCompoObject(rows,175,182),
+                setCompoObject(rows,187,194),
+                setCompoObject(rows,199,206),
+                setCompoObject(rows,211,218)
+            ]
+        }
+    };
     
     return {
         indicators: indicators,
         graphs : graphs,
         jaugeDatas: jaugeDatas,
-        aggregator: aggregator
-        // completeResults: completeResults
+        aggregator: aggregator,
+        completeResults: completeResults
     }
 }
 

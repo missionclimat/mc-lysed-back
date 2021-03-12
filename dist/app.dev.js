@@ -40,8 +40,9 @@ app.use(express.urlencoded({
   extended: false
 })); // app.use(cookieParser());
 
+var allowedOrigins = [process.env.FRONTEND_URI, process.env.FRONTEND_URL_SECURE];
 var corsOptions = {
-  origin: [process.env.FRONTEND_URI, process.env.FRONTEND_URL_SECURE],
+  origin: allowedOrigins,
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -58,7 +59,12 @@ app.use(session({
   secret: process.env.SECRET_SESSION
 }));
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", corsOptions.origin); // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  var origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  } // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
 
   next();
 });

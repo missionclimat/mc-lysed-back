@@ -31,8 +31,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser());
 
+const allowedOrigins = [process.env.FRONTEND_URI, process.env.FRONTEND_URL_SECURE]
+
 var corsOptions = {
-  origin: [process.env.FRONTEND_URI, process.env.FRONTEND_URL_SECURE],
+  origin: allowedOrigins,
   credentials: true,
   optionsSuccessStatus: 200,
 };
@@ -50,7 +52,10 @@ app.use(
 );
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", corsOptions.origin);
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+       res.setHeader('Access-Control-Allow-Origin', origin);
+  }
   // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });

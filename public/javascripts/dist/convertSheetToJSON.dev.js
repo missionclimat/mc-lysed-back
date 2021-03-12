@@ -24,8 +24,8 @@ require("dotenv").config(); ////////////////////////////////////////////////////
 
 
 var idSpreadsheetData = process.env.SPREADSHEET_MASTER_ID;
-var categoryRange = 'Secteurs!A3:I7';
-var parametersRange = 'Paramètres!A3:V26';
+var categoryRange = 'Secteurs!A3:I50';
+var parametersRange = 'Paramètres!A3:V300';
 var resultsRange = 'Résultats!A1:BB300';
 var outputFileName = "initialDatas.json"; ///////////////
 
@@ -95,8 +95,7 @@ function getParametersInfo(data) {
     tendance: data[17],
     contraintes: data[18],
     coBenefices: data[19],
-    coInconveniants: data[20],
-    sources: data[21]
+    displayed: formatNumber(data[20], 0)
   };
   parameters.type = {};
 

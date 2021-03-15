@@ -130,9 +130,17 @@ router.get("/", function (req, res, next) {
             drive.files.copy({
               fileId: process.env.SPREADSHEET_MASTER_ID
             }).then(function (dbRes) {
-              res.status(200).json({
-                id: dbRes.data.id
-              });
+              drive.permissions.create({
+                fileId: dbRes.data.id,
+                resource: {
+                  role: 'writer',
+                  type: 'anyone'
+                }
+              }).then(function (permRes) {
+                res.status(200).json({
+                  id: dbRes.data.id
+                });
+              })["catch"](res.status(500));
             })["catch"](res.status(500));
 
           case 3:

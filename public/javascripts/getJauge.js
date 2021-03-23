@@ -14,7 +14,6 @@ function getJauge(rows, i,j) {
 
     while (rows[w] && rows[w].length) {
       numberOfParameters += 1
-    //   console.log(numberOfParameters)
       w +=1
     }
 

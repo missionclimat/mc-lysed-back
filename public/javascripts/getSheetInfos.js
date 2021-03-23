@@ -272,7 +272,6 @@ async function getSheetInfos() {
             options: options,
             results: results
         }
-        console.log(initialDatas)
         return JSON.stringify(initialDatas)
 
       });

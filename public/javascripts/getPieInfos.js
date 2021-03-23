@@ -22,8 +22,6 @@ function getPieInfos(rows, i, j) {
 
     createData02()
 
-    // console.log(datas.data02)
-
     datas.data01 = []
 
     var listSectors = []
@@ -35,8 +33,6 @@ function getPieInfos(rows, i, j) {
     }
 
     createListSectors()
-
-    // console.log(listSectors)
 
     function createObjectForDatas() {
         for (let x = 0; x < listSectors.length; x++){

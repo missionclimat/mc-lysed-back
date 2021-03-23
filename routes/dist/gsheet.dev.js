@@ -232,7 +232,7 @@ router.patch("/update/:id", function (req, res, next) {
             sheets.spreadsheets.values.update({
               spreadsheetId: idSheet,
               range: rangeParams,
-              valueInputOption: "RAW",
+              valueInputOption: "USER_ENTERED",
               "resource": {
                 "values": values
               }

@@ -14,9 +14,3 @@ function convert(truc) {
     var num = 
     return(num)
 }
-
-console.log(convert(50.77))
-console.log(convert(50))
-console.log(convert("55"))
-console.log(convert("55.55"))
-console.log(convert("ta race"))

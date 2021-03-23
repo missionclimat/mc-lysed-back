@@ -191,9 +191,10 @@ router.patch("/update/:id", (req, res, next) => {
       .update({
         spreadsheetId: idSheet,
         range: rangeParams,
-        valueInputOption: "RAW",
+        valueInputOption: "USER_ENTERED",
         "resource": {
           "values": values,
+          
         },
       })
       .then((response) => {
